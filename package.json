@@ -4,6 +4,7 @@
   "description": "OST Points calculation for XCSO",
   "main": "server/src/app.js",
   "scripts": {
+    "start": "server/node_modules/nodemon/bin/nodemon.js server/src/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
