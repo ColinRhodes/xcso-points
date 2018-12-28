@@ -1,0 +1,19 @@
+{
+  "name": "xcso-points",
+  "version": "1.0.0",
+  "description": "OST Points calculation for XCSO",
+  "main": "server/src/app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://ColinRhodes@github.com/ColinRhodes/xcso-points.git"
+  },
+  "author": "Colin Rhodes <colin.rhodes@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ColinRhodes/xcso-points/issues"
+  },
+  "homepage": "https://github.com/ColinRhodes/xcso-points#readme"
+}
