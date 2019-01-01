@@ -4,6 +4,7 @@
   "description": "OST Points calculation for XCSO",
   "main": "server/src/app.js",
   "scripts": {
+    "build": "cd client; npm build",
     "start": "node server/src/app.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "postinstall": "cd server; npm install; cd ../client; npm install"
