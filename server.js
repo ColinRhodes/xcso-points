@@ -3,6 +3,8 @@ const bodyParser  = require('body-parser');
 const cors        = require('cors');
 const morgan      = require('morgan');
 const serveStatic = require('serve-static');
+const _           = require('lodash');
+const CplAccess   = require('./server/CplAccess');
 
 const app = express();
 app.use(morgan('combined'));
@@ -11,13 +13,14 @@ app.use(cors());
 
 app.use(serveStatic(__dirname + "/dist"));
 
-app.get('/api/posts', (req, res) => {
-	res.send([
-		{
-			title       : 'Hello World!',
-			description : 'Hi there! How are you?',
-		},
-	]);
+app.get('/api/lists', async (req, res) => {
+	try {
+		const data = await CplAccess.getAllPointsLists();
+		res.send(data);
+	}
+	catch (e) {
+		res.status(500).send(_.get(e, 'message'))
+	}
 });
 
 const port = process.env.PORT || 8081;
