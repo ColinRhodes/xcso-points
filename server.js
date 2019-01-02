@@ -11,7 +11,7 @@ app.use(cors());
 
 app.use(serveStatic(__dirname + "/dist"));
 
-app.get('/posts', (req, res) => {
+app.get('/api/posts', (req, res) => {
 	res.send([
 		{
 			title       : 'Hello World!',
