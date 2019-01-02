@@ -22,7 +22,7 @@ module.exports = {
 	getPointsListData : async function(id) {
 		const cacheKey = getCacheKey(id);
 
-		if (!CACHE.listData.has(cacheKey)) {
+		if (!CACHE.has(cacheKey)) {
 			let data = await getContent(`/ViewPointsList.asp?id=${id}&format=json`);
 			data     = processPointsListData(data);
 
@@ -37,19 +37,37 @@ module.exports = {
 function processPointsLists(pojo) {
 	return _(pojo.pointsLists)
 		.filter({ listType : 'Seeding' })
-		.groupBy('publicationDate')
+		.groupBy('endDate')
 		.map(similarLists => ({
+			id              : `${reformatDate(similarLists[0].startDate)};${reformatDate(similarLists[0].endDate)}`,
 			name            : _(similarLists).map('name').uniq().valueOf().join(' / '),
 			startDate       : reformatDate(similarLists[0].startDate),
 			endDate         : reformatDate(similarLists[0].endDate),
 			publicationDate : reformatDate(similarLists[0].publicationDate),
-			lists           : _.pick(similarLists, (value, key) => !_.includes([ 'startDate', 'endDate', 'publicationDate' ], key)),
+			lists           : _.map(similarLists, list => _.pick(list, [ 'id', 'name', 'gender', 'discipline', 'numRaces' ])),
 		}))
+
+		// only include list sets that have all four lists by gender/discipline
+		.filter(listSet => {
+			const reqdLists = [
+				_.find(listSet.lists, { gender : 'Men',   discipline : 'Distance' }),
+				_.find(listSet.lists, { gender : 'Men',   discipline : 'Sprint' }),
+				_.find(listSet.lists, { gender : 'Women', discipline : 'Distance' }),
+				_.find(listSet.lists, { gender : 'Women', discipline : 'Sprint' }),
+			];
+
+			return listSet.lists.length === 4 && _.compact(reqdLists).length === 4;
+		})
 		.valueOf();
 }
 
 function processPointsListData(pojo) {
-	return _.filter(pojo.skiers, { country : 'CAN', division : 'ON' });
+	return _(pojo.skiers)
+		.filter({ country : 'CAN', division : 'ON' })
+		.forEach(skier => {
+			skier.club = _.trim(skier.club);
+		})
+		.valueOf();
 }
 
 function reformatDate(str) {
@@ -104,8 +122,7 @@ function getContent(path) {
 
 		req.on('error', function(e) {
 			if (e) {
-				console.log('REQ ERROR');
-				reject({ status : e.statusCode || undefined, message : e.message || e, data : e.data ? e.data.toString() : undefined });
+				reject({ status : e.statusCode || undefined, message : e.message || e });
 			}
 			else {
 				reject();
@@ -115,9 +132,3 @@ function getContent(path) {
 		req.end();
 	});
 }
-
-
-
-
-//getContent('ViewPoints.asp?format=json').catch(e => console.log('ERR', e))
-
