@@ -14,8 +14,8 @@ async function generateXLSXBuffer(listSetID) {
 async function generateWorkbook(listSetID) {
 	const workbook = XLSX.utils.book_new();
 
-	const districtWorksheets = await getDistrictWorksheets(listSetID);
-	const teamWorksheets     = await getTeamWorksheets(listSetID);
+	const districtWorksheets = await generateDistrictWorksheets(listSetID);
+	const teamWorksheets     = await generateAllTeamWorksheets(listSetID);
 
 	_(districtWorksheets)
 		.concat(teamWorksheets)
@@ -27,7 +27,7 @@ async function generateWorkbook(listSetID) {
 	return workbook;
 }
 
-async function getDistrictWorksheets(listSetID) {
+async function generateDistrictWorksheets(listSetID) {
 	const districtRankings = await PointsCalculator.getDistrictRankings(listSetID);
 
 	const summaryData = _(districtRankings)
@@ -68,13 +68,48 @@ async function getDistrictWorksheets(listSetID) {
 	];
 }
 
-async function getTeamWorksheets(listSetID) {
+async function generateAllTeamWorksheets(listSetID) {
 	const teamRankings = await PointsCalculator.getTeamRankings(listSetID);
 
-	return [
-		{
-			title : 'Team1',
-			ws    : XLSX.utils.json_to_sheet([]),
-		},
-	];
+	return _(teamRankings)
+		.map(team => [
+			generateTeamWorksheet(team, 'Men'),
+			generateTeamWorksheet(team, 'Women'),
+		])
+		.flatten()
+		.valueOf();
+}
+
+function generateTeamWorksheet(teamData, gender) {
+	const data = _(teamData.skiers)
+		.filter({ gender })
+		.map(skier => {
+			const result = {
+				'CCC License'        : skier.skierID,
+				'Last Name'          : skier.lastName,
+				'First Name'         : skier.firstName,
+				'YOB'                : skier.yearOfBirth,
+				'Club'               : skier.club,
+				'District'           : skier.district,
+				'Sprint Points'      : skier.sprintPoints,
+				'Num Sprint Races'   : skier.sprintNumRaces,
+				'Distance Points'    : skier.distancePoints,
+				'Num Distance Races' : skier.distanceNumRaces,
+				'Best Points'        : skier.bestPoints,
+			};
+
+			if (teamData.showIPB) {
+				result['% of IPB Distance'] = skier.distanceIPB;
+				result['% of IPB Sprint']   = skier.sprintIPB;
+				result['% of IPB Best']     = skier.bestIPB;
+			}
+
+			return result;
+		})
+		.valueOf();
+
+	return {
+		title : `${teamData.name} - ${gender}`,
+		ws    : XLSX.utils.json_to_sheet(data),
+	};
 }

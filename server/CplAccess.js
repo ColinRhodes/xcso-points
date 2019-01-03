@@ -112,8 +112,9 @@ function getContent(path) {
 				});
 				res.on('end', function() {
 					// parse response, assuming JSON format
+					let content = body.toString('latin1');
 					try {
-						body = JSON.parse(body.toString());
+						content = JSON.parse(content);
 					}
 					catch (e) {} // eslint-disable-line no-empty
 
@@ -121,7 +122,7 @@ function getContent(path) {
 						return reject({ status : res.statusCode, message : res.statusMessage, data : body });
 					}
 
-					resolve(body);
+					resolve(content);
 				});
 			}
 		);

@@ -14,9 +14,9 @@ module.exports = {
 				.valueOf();
 
 			return {
-				name  : teamProfile.name,
-				men   : _.filter(results, { gender : 'Men' }),
-				women : _.filter(results, { gender : 'Women' }),
+				name    : teamProfile.name,
+				showIPB : teamProfile.showIPB,
+				skiers  : results,
 			};
 		});
 	},
@@ -100,12 +100,12 @@ async function combineLists(listSetID) {
 			result.district = clubDistrictMap.get(result.club);
 
 			result.sprintPoints      = _.get(sprintData, 'points', 0);
-			result.sprintNumEvents   = _.get(sprintData, 'numEvents', 0);
+			result.sprintNumRaces    = _.get(sprintData, 'numRaces', 0);
 			result.sprintTotalPoints = _.get(sprintData, 'totalPoints', 0);
 			result.sprintIPB         = Math.round(result.sprintPoints / config.ipb[result.gender.toLowerCase()].sprint[result.age] * 100, 2);
 
 			result.distancePoints      = _.get(distanceData, 'points', 0);
-			result.distanceNumEvents   = _.get(distanceData, 'numEvents', 0);
+			result.distanceNumRaces    = _.get(distanceData, 'numRaces', 0);
 			result.distanceTotalPoints = _.get(distanceData, 'totalPoints', 0);
 			result.distanceIPB         = Math.round(result.distancePoints / config.ipb[result.gender.toLowerCase()].distance[result.age] * 100, 2);
 
