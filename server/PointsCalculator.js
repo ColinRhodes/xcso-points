@@ -37,7 +37,12 @@ module.exports = {
 
 		return _(skiers)
 			.groupBy('district')
-			.mapValues(districtSkiers => _(districtSkiers).sortBy('bestPoints').take(config.districtComp.numSkiers).valueOf())
+			.mapValues(districtSkiers =>
+				_(districtSkiers)
+					.orderBy('bestPoints', 'desc')
+					.take(config.districtComp.numSkiers)
+					.valueOf()
+			)
 			.map((districtSkiers, district) => ({
 				district,
 				totalPoints : _(districtSkiers).map('bestPoints').sum().valueOf(),

@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
-    "start": "node server.js",
+    "start": "node server/server.js",
     "lint": "eslint --ext .js,.vue src",
     "build": "node build/build.js",
     "heroku-postbuild": "npm install --only=dev --no-shrinkwrap && npm run build"
@@ -19,7 +19,8 @@
     "moment": "^2.23.0",
     "morgan": "^1.9.1",
     "vue": "^2.5.2",
-    "vue-router": "^3.0.1"
+    "vue-router": "^3.0.1",
+    "xlsx": "^0.14.1"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
