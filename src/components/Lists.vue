@@ -1,15 +1,30 @@
 <template>
-	<div class="posts">
-		<h1>Available Points Lists</h1>
-		<div
-			v-for="list in lists"
-			:key="list.name"
-		>
-			<p>
-				<span><b>{{ list.name }}</b></span><br>
-				<span>{{ list.publicationDate }}</span>
-			</p>
-		</div>
+	<div class="lists">
+		<table cellspacing="10">
+			<thead>
+				<tr>
+					<th>List</th>
+					<th>Start Date</th>
+					<th>End Date</th>
+					<th>Publish Date</th>
+					<th/>
+				</tr>
+			</thead>
+			<tbody>
+				<tr
+					v-for="list in lists"
+					:key="list.name"
+				>
+					<td>{{ list.name }}</td>
+					<td>{{ list.startDate }}</td>
+					<td>{{ list.endDate }}</td>
+					<td>{{ list.publicationDate }}</td>
+					<td>
+						<a :href="getReportURL(list)" target="_blank">Generate Points Report</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
 	</div>
 </template>
 
@@ -30,6 +45,16 @@ export default {
 			const response = await ListsService.fetchLists();
 			this.lists = response.data;
 		},
+
+		getReportURL(list) {
+			return `/api/report?list-set-id=${list.id}`;
+		},
 	},
 };
 </script>
+
+<style>
+.lists table {
+	text-align : left;
+}
+</style>

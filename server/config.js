@@ -79,6 +79,8 @@ module.exports = {
 			'Polecats (Wildwood)',
 			'Kawartha Nordic Ski Club',
 			'Waterloo Region Nordic Sports Club',
+			'University of Toronto Nordic Ski Team',
+			'Pinestone Resort Trails Ski Club',
 		],
 		NCD : [
 			'Nakkertok Nordic (Ontario)',
@@ -89,6 +91,8 @@ module.exports = {
 			'Skinouk (Ontario)',
 			'Carleton University Nordic Ski Team',
 			'Ottawa Racers Ski Club',
+			'Orleans Nordic Ski Club',
+			'xczone',
 		],
 		NOD : [
 			'Soo Finnish Nordic Ski Club',
@@ -97,6 +101,7 @@ module.exports = {
 			'Walden Cross Country',
 			'Porcupine Ski Runners',
 			'Temiskaming Nordic Ski Club',
+			'Capreol Cross Country Ski Club',
 		],
 		LSSD : [
 			'Lappe Nordic Ski Club',

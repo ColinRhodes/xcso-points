@@ -35,6 +35,8 @@ module.exports = {
 	},
 };
 
+const NOW = new Moment();
+
 function processPointsLists(pojo) {
 	return _(pojo.pointsLists)
 		.filter({ listType : 'Seeding' })
@@ -47,6 +49,8 @@ function processPointsLists(pojo) {
 			publicationDate : reformatDate(similarLists[0].publicationDate),
 			lists           : _.map(similarLists, list => _.pick(list, [ 'id', 'name', 'gender', 'discipline', 'numRaces' ])),
 		}))
+
+		.filter(listSet => NOW.diff(new Moment(listSet.endDate, 'YYYY-MM-DD'), 'year') < 2)
 
 		// only include list sets that have all four lists by gender/discipline
 		.filter(listSet => {

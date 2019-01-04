@@ -13,7 +13,7 @@ app.use(morgan('combined'));
 app.use(bodyParser.json());
 app.use(cors());
 
-app.use(serveStatic(`${__dirname}/dist`));
+app.use(serveStatic(`${__dirname}/../dist`));
 
 app.get('/api/lists', async (req, res) => {
 	try {
