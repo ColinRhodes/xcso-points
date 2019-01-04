@@ -93,6 +93,7 @@ module.exports = {
 			'Ottawa Racers Ski Club',
 			'Orleans Nordic Ski Club',
 			'xczone',
+			'Kanata Nordic',
 		],
 		NOD : [
 			'Soo Finnish Nordic Ski Club',
