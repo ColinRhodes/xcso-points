@@ -1,7 +1,6 @@
 const _      = require('lodash');
 const http   = require('http');
 const Moment = require('moment');
-const DEBUG_RESPONSES = require('./DebugResponses');
 
 const CACHE = new Map();
 
@@ -97,10 +96,13 @@ function getCacheKey(param) {
  * @return {Object}
  */
 function getContent(path) {
-	// MUSTDO: remove debug
+	// DEBUG CODE
+	/*
+	const DEBUG_RESPONSES = require('./DebugResponses');
 	if (DEBUG_RESPONSES.hasOwnProperty(path)) {
 		return DEBUG_RESPONSES[path];
 	}
+	*/
 
 	return new Promise((resolve, reject) => {
 		const req = http.request(
