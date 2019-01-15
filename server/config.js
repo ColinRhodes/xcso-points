@@ -81,6 +81,7 @@ module.exports = {
 			'Waterloo Region Nordic Sports Club',
 			'University of Toronto Nordic Ski Team',
 			'Pinestone Resort Trails Ski Club',
+			'Haliburton Highlands Nordic Trails Association',
 		],
 		NCD : [
 			'Nakkertok Nordic (Ontario)',
