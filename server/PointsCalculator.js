@@ -21,34 +21,14 @@ module.exports = {
 		});
 	},
 
-	getDistrictRankings : async function(listSetID) {
-		let skiers = await combineLists(listSetID);
-		skiers     = _.filter(skiers, skier => skier.age <= config.districtComp.maxAge);
+	getDistrictPoints : async function(listSetID) {
+		const data = await getSkiersByDistrict(listSetID, config.districtComp.numSkiersForPoints);
 
-		const unListedClubs = _(skiers)
-			.filter(skier => !skier.district)
-			.map('club')
-			.uniq()
-			.valueOf();
+		return _.map(data, districtData => _.pick(districtData, [ 'district', 'totalPoints', 'numWomen', 'numMen' ]));
+	},
 
-		if (!_.isEmpty(unListedClubs)) {
-			throw new Error(`Cannot generate district rankings.  Unlisted club(s): ${unListedClubs.join(', ')}. \nPlease add these clubs to 'config.js'`);
-		}
-
-		return _(skiers)
-			.groupBy('district')
-			.mapValues(districtSkiers =>
-				_(districtSkiers)
-					.orderBy('bestPoints', 'desc')
-					.take(config.districtComp.numSkiers)
-					.valueOf()
-			)
-			.map((districtSkiers, district) => ({
-				district,
-				totalPoints : _(districtSkiers).map('bestPoints').sum().valueOf(),
-				skiers      : districtSkiers,
-			}))
-			.valueOf();
+	getDistrictDetails : async function(listSetID) {
+		return getSkiersByDistrict(listSetID, config.districtComp.numSkiersForDetails);
 	},
 };
 
@@ -59,6 +39,10 @@ _.forEach(config.clubs, (clubs, district) => {
 	});
 });
 
+/**
+ * Combines data from a set of points lists to get accumulated data per skier, including their best points between sprint/distance
+ * @return {Skier[]}
+ */
 async function combineLists(listSetID) {
 	if (!listSetID) {
 		throw new Error('Missing listSetID param');
@@ -114,5 +98,48 @@ async function combineLists(listSetID) {
 
 			return result;
 		})
+		.valueOf();
+}
+
+/**
+ * Gets the top X skiers by district
+ */
+async function getSkiersByDistrict(listSetID, numSkiersPerGender) {
+	let skiers = await combineLists(listSetID);
+	skiers     = _.filter(skiers, skier => skier.age <= config.districtComp.maxAge);
+
+	const unListedClubs = _(skiers)
+		.filter(skier => !skier.district)
+		.map('club')
+		.uniq()
+		.valueOf();
+
+	if (!_.isEmpty(unListedClubs)) {
+		throw new Error(`Cannot generate district rankings.  Unlisted club(s): ${unListedClubs.join(', ')}. \nPlease add these clubs to 'config.js'`);
+	}
+
+	return _(skiers)
+		.groupBy('district')
+		.mapValues(districtSkiers =>
+			_(districtSkiers)
+				.groupBy('gender')
+				.map(districtGenderSkiers =>
+					_(districtGenderSkiers)
+						.orderBy('bestPoints', 'desc')
+						.take(numSkiersPerGender)
+						.valueOf()
+				)
+				.flatten()
+				.orderBy('gender', 'desc')
+				.valueOf()
+		)
+		.map((districtSkiers, district) => ({
+			district,
+			totalPoints : _(districtSkiers).map('bestPoints').sum().valueOf(),
+			numWomen    : _.filter(districtSkiers, { gender : 'Women' }).length,
+			numMen      : _.filter(districtSkiers, { gender : 'Men' }).length,
+			skiers      : districtSkiers,
+		}))
+		.orderBy('totalPoints', 'desc')
 		.valueOf();
 }

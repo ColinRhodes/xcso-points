@@ -62,8 +62,9 @@ module.exports = {
 	],
 
 	districtComp : {
-		maxAge    : 23,
-		numSkiers : 10,
+		maxAge              : 23,
+		numSkiersForPoints  : 10,
+		numSkiersForDetails : 15,
 	},
 
 	// http://apps.cccski.com/main.asp?lan=0&cmd=cll&id=5&Param1=

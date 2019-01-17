@@ -28,18 +28,19 @@ async function generateWorkbook(listSetID) {
 }
 
 async function generateDistrictWorksheets(listSetID) {
-	const districtRankings = await PointsCalculator.getDistrictRankings(listSetID);
+	const districtPoints = await PointsCalculator.getDistrictPoints(listSetID);
+	const districtDetails = await PointsCalculator.getDistrictDetails(listSetID);
 
-	const summaryData = _(districtRankings)
-		.orderBy('totalPoints', 'desc')
+	const summaryData = _(districtPoints)
 		.map(row => ({
-			'District'     : row.district,
-			'Total Points' : row.totalPoints,
+			'District'          : row.district,
+			'Total Points'      : row.totalPoints,
+			'Num Women Counted' : row.numWomen,
+			'Num Men Counted'   : row.numMen,
 		}))
 		.valueOf();
 
-	const detailsData = _(districtRankings)
-		.orderBy('totalPoints', 'desc')
+	const detailsData = _(districtDetails)
 		.map('skiers')
 		.flatten()
 		.map(skier => ({
