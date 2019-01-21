@@ -29,6 +29,7 @@
 		<h3>Notes</h3>
 		<ul>
 			<li>Generating a points report will take up to a minute before the file downloads.  This time is mostly spent fetching data from CCC.</li>
+			<li>If you get an error generating a report, please try again -- it was likely a timeout.</li>
 			<li>This app only shows CPL sets where all four lists have been published for the same time period (men/women, distance/sprint)</li>
 			<li><a href="https://github.com/ColinRhodes/xcso-points" target="_blank">Source Code</a></li>
 		</ul>
