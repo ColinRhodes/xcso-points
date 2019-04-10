@@ -86,12 +86,12 @@ async function combineLists(listSetID) {
 			result.sprintPoints      = _.get(sprintData, 'points', 0);
 			result.sprintNumRaces    = _.get(sprintData, 'numRaces', 0);
 			result.sprintTotalPoints = _.get(sprintData, 'totalPoints', 0);
-			result.sprintIPB         = Math.round(result.sprintPoints / config.ipb[result.gender.toLowerCase()].sprint[result.age] * 100, 2);
+			result.sprintIPB         = _.round(result.sprintPoints / config.ipb[result.gender.toLowerCase()].sprint[result.age] * 100, config.ipb.numDigitsForPct);
 
 			result.distancePoints      = _.get(distanceData, 'points', 0);
 			result.distanceNumRaces    = _.get(distanceData, 'numRaces', 0);
 			result.distanceTotalPoints = _.get(distanceData, 'totalPoints', 0);
-			result.distanceIPB         = Math.round(result.distancePoints / config.ipb[result.gender.toLowerCase()].distance[result.age] * 100, 2);
+			result.distanceIPB         = _.round(result.distancePoints / config.ipb[result.gender.toLowerCase()].distance[result.age] * 100, config.ipb.numDigitsForPct);
 
 			result.bestPoints = Math.max(result.sprintPoints, result.distancePoints);
 			result.bestIPB    = Math.max(result.sprintIPB, result.distanceIPB);

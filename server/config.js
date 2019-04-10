@@ -43,6 +43,8 @@ module.exports = {
 				23 : 95,
 			},
 		},
+
+		numDigitsForPct : 2,
 	},
 
 	// the set of points calculations to perform
