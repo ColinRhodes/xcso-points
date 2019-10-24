@@ -51,7 +51,7 @@ module.exports = {
 	teams : [
 		{
 			name    : 'Ontario Junior Ski Team',
-			minAge  : 16,
+			minAge  : 15,
 			maxAge  : 17,
 			showIPB : false,
 		},
