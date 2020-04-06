@@ -8,6 +8,7 @@
 					<th>Start Date</th>
 					<th>End Date</th>
 					<th>Publish Date</th>
+					<th>Type</th>
 					<th/>
 				</tr>
 			</thead>
@@ -20,6 +21,7 @@
 					<td>{{ list.startDate }}</td>
 					<td>{{ list.endDate }}</td>
 					<td>{{ list.publicationDate }}</td>
+					<td>{{ list.listType }}</td>
 					<td>
 						<a :href="getReportURL(list)" target="_blank">Generate Points Report</a>
 					</td>

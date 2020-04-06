@@ -38,14 +38,15 @@ const NOW = new Moment();
 
 function processPointsLists(pojo) {
 	return _(pojo.pointsLists)
-		.filter({ listType : 'Seeding' })
-		.groupBy('endDate')
+		.filter(list => [ 'Seeding', 'Adhoc' ].includes(list.listType))
+		.groupBy(list => `${list.endDate}${list.listType}`)
 		.map(similarLists => ({
 			id              : `${reformatDate(similarLists[0].startDate)};${reformatDate(similarLists[0].endDate)}`,
 			name            : _(similarLists).map('name').uniq().valueOf().join(' / '),
 			startDate       : reformatDate(similarLists[0].startDate),
 			endDate         : reformatDate(similarLists[0].endDate),
 			publicationDate : reformatDate(similarLists[0].publicationDate),
+			listType        : similarLists[0].listType,
 			lists           : _.map(similarLists, list => _.pick(list, [ 'id', 'name', 'gender', 'discipline', 'numRaces' ])),
 		}))
 
@@ -145,4 +146,3 @@ function getContent(path) {
 		req.end();
 	});
 }
-
