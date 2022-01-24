@@ -1,5 +1,5 @@
 const _      = require('lodash');
-const http   = require('http');
+const https  = require('https');
 const Moment = require('moment');
 
 const CACHE = new Map();
@@ -54,14 +54,14 @@ function processPointsLists(pojo) {
 
 		// only include list sets that have all four lists by gender/discipline
 		.filter(listSet => {
-			const reqdLists = [
+			const requiredLists = [
 				_.find(listSet.lists, { gender : 'Men',   discipline : 'Distance' }),
 				_.find(listSet.lists, { gender : 'Men',   discipline : 'Sprint' }),
 				_.find(listSet.lists, { gender : 'Women', discipline : 'Distance' }),
 				_.find(listSet.lists, { gender : 'Women', discipline : 'Sprint' }),
 			];
 
-			return listSet.lists.length === 4 && _.compact(reqdLists).length === 4;
+			return listSet.lists.length === 4 && _.compact(requiredLists).length === 4;
 		})
 		.valueOf();
 }
@@ -106,10 +106,10 @@ function getContent(path) {
 	*/
 
 	return new Promise((resolve, reject) => {
-		const req = http.request(
+		const req = https.request(
 			{
 				method   : 'GET',
-				hostname : 'apps.cccski.com',
+				hostname : 'services.nordiqcanada.ca',
 				path,
 			},
 			function(res) {
