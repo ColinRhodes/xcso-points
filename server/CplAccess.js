@@ -128,6 +128,7 @@ function getContent(path) {
 					catch (e) {} // eslint-disable-line no-empty
 
 					if (res.statusCode >= 300) {
+						console.error('ERROR from API', { status : res.statusCode, message : res.statusMessage, data : body });
 						return reject({ status : res.statusCode, message : res.statusMessage, data : body });
 					}
 
