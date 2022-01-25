@@ -137,6 +137,7 @@ function getContent(path) {
 		);
 
 		req.on('error', function(e) {
+			console.error('ERROR from API', e);
 			if (e) {
 				reject({ status : e.statusCode || undefined, message : e.message || e });
 			}
