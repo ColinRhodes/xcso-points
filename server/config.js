@@ -81,6 +81,7 @@ module.exports = {
 			'Five Winds Ski Touring Club',
 			'Georgian Bay Nordic',
 			'Georgian Nordic Ski and Canoe Club',
+			'Georgian Nordic Outdoor Activity Centre',
 			'Haliburton Highlands Nordic Trails Association',
 			'Highlands Trailblazers',
 			'Kawartha Nordic Ski Club',
