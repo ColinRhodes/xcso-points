@@ -105,6 +105,8 @@ function getContent(path) {
 	}
 	*/
 
+	console.log('Fetching from ', path);
+
 	return new Promise((resolve, reject) => {
 		const req = https.request(
 			{
