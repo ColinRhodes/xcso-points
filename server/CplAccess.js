@@ -1,5 +1,5 @@
 const _      = require('lodash');
-const https  = require('https');
+const http   = require('http');
 const Moment = require('moment');
 
 const CACHE = new Map();
@@ -106,12 +106,13 @@ function getContent(path) {
 	*/
 
 	console.log('Fetching from ', path);
+	const start = new Date();
 
 	return new Promise((resolve, reject) => {
-		const req = https.request(
+		const req = http.request(
 			{
 				method   : 'GET',
-				hostname : 'services.nordiqcanada.ca',
+				hostname : 'backup.zone4.ca',
 				path,
 			},
 			function(res) {
@@ -124,6 +125,7 @@ function getContent(path) {
 					let content = body.toString('latin1');
 					try {
 						content = JSON.parse(content);
+						console.log('Fetch successful', path, `${new Date() - start}ms`);
 					}
 					catch (e) {} // eslint-disable-line no-empty
 
