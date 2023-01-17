@@ -101,6 +101,7 @@ module.exports = {
 			'Waterloo Region Nordic Sports Club',
 		],
 		NCD : [
+			'Brittania Winter Trail Association',
 			'Carleton University Nordic Ski Team',
 			'Chelsea Nordiq (Ontario)',
 			'Deep River Cross Country Ski Club',
