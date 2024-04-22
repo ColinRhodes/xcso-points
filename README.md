@@ -31,7 +31,7 @@ The app is hosted at https://xcso-points.herokuapp.com
 To run the app under docker you can follow these instructions:
 
 1. Install Docker Desktop from https://www.docker.com/products/docker-desktop
-2. From a terminal or command prompt run the following commands:
-	1. Build the docker image: `docker build -t xcso-points .`
-	2. Run the docker image: `docker run -d -p 8081:8081 xcso-points`
+2. From a terminal or command prompt run the following commands from the repository directory:
+	2. Build the docker image: `docker build -t xcso-points .`
+	3. Run the docker image: `docker run -d -p 8081:8081 xcso-points`
 3. Open a web browser and navigate to `http://localhost:8081/`
